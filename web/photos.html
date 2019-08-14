@@ -1,0 +1,9 @@
+{{define "content"}}
+<div class="container">
+  {{range .}}
+    <div class="col-sm-4 float-left" style="padding-bottom:30px;">
+      <a href={{.Path}}><img src={{.Path}} class="img-responsive"></a>
+    </div>
+  {{end}}
+</div>
+{{end}}

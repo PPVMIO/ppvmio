@@ -1,5 +1,5 @@
 .DS_Store
-
+.vscode
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -15,3 +15,6 @@
 
 # Dependency directories (remove the comment below to include it)
 vendor/
+
+config/config.yaml
+notes
