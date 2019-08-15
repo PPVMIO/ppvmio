@@ -1,9 +1,9 @@
 {{define "content"}}
-<div class="container">
+<div style="padding-top:30px;">
   {{range .}}
     <div class="col-sm-4 float-left" style="padding-bottom:30px;">
-      <a href={{.Path}}><img src={{.Path}} class="img-responsive"></a>
+      <a href={{.Url}}><img src={{.Url}} class="img-responsive"></a>
     </div>
   {{end}}
-</div>
+<div>
 {{end}}

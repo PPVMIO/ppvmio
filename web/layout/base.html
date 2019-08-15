@@ -57,31 +57,58 @@
         font-size: 36px;
         margin-left: 50px;
       }
+
+      .bg {
+        background-image: url('{{.BackgroundUrl}}');
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
   
     </style>
   </head>
   <body>
-    
+  {{if .Background}}
+    <div class="bg">
+  {{end}}  
     <nav class="navbar">
-      <div class="container-fluid">
-      </div>
+      <div class="container-fluid"></div>
       <a class="navbar-brand">
-        <span style="font-size:16px;cursor:pointer;color:black" onclick="openNav()">&#9776; Menu </span>
+        {{if .DarkTheme}}
+          <span style="font-size:16px;cursor:pointer;color:white" onclick="openNav()">&#9776; Menu </span>
+        {{else}}
+          <span style="font-size:16px;cursor:pointer;color:black" onclick="openNav()">&#9776; Menu </span>
+        {{end}}
+        
       </a>
-      
-    </div>
-  </nav>
+    </nav>
   
-  <div id="mySidenav" class="sidenav text-center">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="./home">Home</a>
-    <a href="./about">About</a>
-    <a href="./photos">Photos</a>
-    <a href="./infrastructure">Infrastructure</a>
-    <a href="./moodboard">Moodboard</a>
-    <a href="./contact">Contact</a>
-  </div> 
-  {{template "content" .}}
+    <div id="mySidenav" class="sidenav text-center">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="./home">Home</a>
+      <a href="./about">About</a>
+      <a href="./projects">Projects</a>
+      <a href="./photos">Photos</a>
+      <a href="./moodboard">Moodboard</a>
+    </div> 
+
+    <div class="container vertical-center"> 
+        {{if .DarkTheme}}
+          <h1 class="text-center" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">PPVMIO</h1>
+          <h4 class="text-center" style="color:white; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo ||  New York, NY</h4>  
+        {{else}}
+          <h1 class="text-center" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">PPVMIO</h1>
+          <h4 class="text-center" style="color:black; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo ||  New York, NY</h4>  
+        {{end}}
+        {{template "content" .Photos}}
+    </div>
+
+  </div>
+
   </body>
 </html>
 

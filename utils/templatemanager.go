@@ -2,11 +2,12 @@ package utils
 
 import (
 	"fmt"
-	"github.com/oxtoacart/bpool"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/oxtoacart/bpool"
 )
 
 var templates map[string]*template.Template
@@ -92,7 +93,6 @@ func RenderTemplate(w http.ResponseWriter, name string, data interface{}) error 
 	buf := bufpool.Get()
 	defer bufpool.Put(buf)
 
-	log.Println(data)
 	err := tmpl.Execute(buf, data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

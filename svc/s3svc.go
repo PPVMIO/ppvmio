@@ -1,9 +1,12 @@
 package svc
+
 import (
+	"log"
+	"strings"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"log"
 )
 
 var svc *s3.S3
@@ -21,8 +24,19 @@ func init() {
 	svc = s3.New(sess)
 
 }
-func RetrievePhotos(n int) []*s3.Object {
+func RetrievePhotos(prefix string) []*s3.Object {
 	bucket := "photos-ppvmio-public"
 	resp, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: aws.String(bucket)})
-	return resp.Contents
+	contents := resp.Contents
+
+	n := 0
+	for _, ele := range contents {
+		if strings.HasPrefix(*ele.Key, prefix) && strings.Compare(*ele.Key, prefix) != 0 {
+			contents[n] = ele
+			n++
+		}
+	}
+	contents = contents[:n]
+	return contents
+
 }

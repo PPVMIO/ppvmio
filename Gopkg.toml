@@ -29,6 +29,3 @@
   go-tests = true
   unused-packages = true
 
-[[constraint]]
-  name = "github.com/gorilla/mux"
-  version = "1.7.2"

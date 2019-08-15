@@ -1,14 +1,11 @@
 {{define "content"}}
-<div class="container vertical-center">   
-  <h1 class="text-center" style="font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">PPVMIO</h1>
-  <div>
-    
-    <canvas class="center-block" id="canvas"></canvas>
-  </div>
-  <br>
-  <br>
-  <h4 class="text-center" style="font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo |||  New York, NY</h4>
+
+<div>
+  <canvas class="center-block" id="canvas"></canvas>
 </div>
+<br>
+<br>
+
 <script>
   window.requestAnimFrame =
   window.requestAnimationFrame ||
@@ -26,27 +23,67 @@
   let clothY = 100
   let clothX = 100
   let spacing = 8
-  let tearDist = 1000
+  let tearDist = 200
   let friction = 0.95
   let bounce = 0.5
   
   let canvas = document.getElementById('canvas')
   let ctx = canvas.getContext('2d')
+
+  let isBrowser = navigator.platform == "MacIntel" ||
+      navigator.platform == "MacPPC" ||
+      navigator.platform != "Mac68K" ||
+      navigator.platform != "Win32" ||
+      navigator.platform != "Win16" ||
+      navigator.platform != "SunOS" ||
+      navigator.platform != "HP-UX" ||
+      navigator.platform != "Linux i686" 
+
+  let isMobile = navigator.platform == "iPhone" ||
+      navigator.platform == "Ipod" ||
+      navigator.platform == "iPad" ||
+      navigator.platform == "Android"
+
+  console.log("Platform: " + navigator.platform)
+  console.log("isBrowser: " + isBrowser)
+  console.log("isMobile: " + isMobile)
   
-  canvas.width = Math.min(1000, window.innerWidth)
-  canvas.height = 500
+  if (!isMobile) {
+    canvas.width = Math.min(1000, window.innerWidth)
+    canvas.height = 500
+  } else {
+    canvas.width = Math.min(300, window.innerWidth)
+    canvas.height = 300
+    accuracy = 5
+
+  }
   
-  ctx.strokeStyle = '#555'
+  ctx.strokeStyle = '#ffffff'
   
-  let mouse = {
-    cut: 8,
-    influence: 26,
-    down: true,
-    button: 1,
-    x: 0,
-    y: 0,
-    px: 0,
-    py: 0
+  let mouse = {}
+  if (!isMobile) {
+    mouse = {
+      cut: 8,
+      influence: 26,
+      down: true,
+      button: 1,
+      x: 0,
+      y: 0,
+      px: 0,
+      py: 0
+    }
+  } else {
+    friction = 0.6
+    mouse = {
+      cut: 8,
+      influence: 40,
+      down: true,
+      button: 1,
+      x: 0,
+      y: 0,
+      px: 0,
+      py: 0
+    }    
   }
   
   class Point {
@@ -70,7 +107,7 @@
         let dx = this.x - mouse.x
         let dy = this.y - mouse.y
         let dist = Math.sqrt(dx * dx + dy * dy)
-        
+      
         if (mouse.button === 1 && dist < mouse.influence) {
           this.px = this.x - (mouse.x - mouse.px)
           this.py = this.y - (mouse.y - mouse.py)
@@ -78,6 +115,7 @@
           this.constraints = []
         }
       }
+
       
       this.addForce(0, gravity)
       
@@ -224,18 +262,33 @@
     mouse.x = e.clientX - rect.left
     mouse.y = e.clientY - rect.top
   }
-  
-  canvas.onmousemove = setMouse
-  
+  function resetMouse (e) {
+    let rect = canvas.getBoundingClientRect()
+    mouse.px = mouse.x
+    mouse.py = mouse.y
+    mouse.x = mouse.x
+    mouse.y = mouse.y
+  }
+  if (!isMobile) {
+    canvas.onmousemove = setMouse
+  } else {
+    canvas.onclick = setMouse
+  }
+
   canvas.oncontextmenu = (e) => e.preventDefault()
   
   let cloth = new Cloth()
   
   ;(function update (time) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    
-    cloth.update(0.016)
-    
+    if (!isMobile) {
+      
+
+      cloth.update(0.016)
+    } else {
+
+      cloth.update(2.0)
+    }
     window.requestAnimFrame(update)
   })(0)
   
