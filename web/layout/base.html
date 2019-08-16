@@ -62,12 +62,21 @@
         background-image: url('{{.BackgroundUrl}}');
         height: 100%;
         background-position: center;
-        background-repeat: no-repeat;
+        background-repeat: repeat;
         background-size: cover;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
       }
+
+      * {
+        font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+      }
+
+      .jumbotron {
+        background: rgba(0, 0, 0, 0.6);
+      }
+      
   
     </style>
   </head>
@@ -93,15 +102,15 @@
       <a href="./about">About</a>
       <a href="./projects">Projects</a>
       <a href="./photos">Photos</a>
-      <a href="./moodboard">Moodboard</a>
+      <a href="./mood">Mood</a>
     </div> 
 
-    <div class="container vertical-center"> 
+    <div class="container"> 
         {{if .DarkTheme}}
-          <h1 class="text-center" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">PPVMIO</h1>
+          <a href="./home" class="text-center" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"><h1>PPVMIO</h1></a>
           <h4 class="text-center" style="color:white; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo ||  New York, NY</h4>  
         {{else}}
-          <h1 class="text-center" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">PPVMIO</h1>
+          <a href="./home" class="text-center" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"><h1>PPVMIO</h1></a>
           <h4 class="text-center" style="color:black; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo ||  New York, NY</h4>  
         {{end}}
         {{template "content" .Photos}}

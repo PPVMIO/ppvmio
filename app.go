@@ -10,6 +10,7 @@ import (
 )
 
 var s3BaseUrl = "http://photos-ppvmio-public.s3.amazonaws.com/"
+var backgrounds = svc.RetrievePhotos("background/")
 
 type Layout struct {
 	DarkTheme     bool
@@ -35,7 +36,7 @@ func main() {
 
 	http.HandleFunc("/home", home)
 	http.HandleFunc("/photos", photos)
-	http.HandleFunc("/moodboard", moodboard)
+	http.HandleFunc("/mood", mood)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/about", about)
 
@@ -47,16 +48,16 @@ func projects(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "projects.html", nil)
 }
 
-func moodboard(w http.ResponseWriter, r *http.Request) {
-	utils.RenderTemplate(w, "moodboard.html", nil)
+func mood(w http.ResponseWriter, r *http.Request) {
+	utils.RenderTemplate(w, "mood.html", nil)
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
-	utils.RenderTemplate(w, "about.html", nil)
+	l := Layout{true, true, s3BaseUrl + *backgrounds[rand.Intn(len(backgrounds))].Key, nil}
+	utils.RenderTemplate(w, "about.html", l)
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
-	backgrounds := svc.RetrievePhotos("background/")
 	l := Layout{true, true, s3BaseUrl + *backgrounds[rand.Intn(len(backgrounds))].Key, nil}
 	utils.RenderTemplate(w, "home.html", l)
 }
