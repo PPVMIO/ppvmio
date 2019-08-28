@@ -24,7 +24,7 @@ func init() {
 	svc = s3.New(sess)
 
 }
-func RetrievePhotos(prefix string) []*s3.Object {
+func RetrieveObjects(prefix string) []*s3.Object {
 	bucket := "photos-ppvmio-public"
 	resp, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: aws.String(bucket)})
 	contents := resp.Contents

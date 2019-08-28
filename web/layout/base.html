@@ -1,5 +1,5 @@
 {{define "base"}}
-<head>
+  <head>
     <title>PP</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -76,8 +76,6 @@
       .jumbotron {
         background: rgba(0, 0, 0, 0.6);
       }
-      
-  
     </style>
   </head>
   <body>
@@ -106,14 +104,14 @@
     </div> 
 
     <div class="container"> 
-        {{if .DarkTheme}}
-          <a href="./home" class="text-center" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"><h1>PPVMIO</h1></a>
-          <h4 class="text-center" style="color:white; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo ||  New York, NY</h4>  
-        {{else}}
-          <a href="./home" class="text-center" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;"><h1>PPVMIO</h1></a>
-          <h4 class="text-center" style="color:black; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo ||  New York, NY</h4>  
-        {{end}}
-        {{template "content" .Photos}}
+      {{if .DarkTheme}}
+        <h1 class="text-center" ><a href="./home" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;">PPVMIO</a></h1>
+        <h4 class="text-center" style="color:white; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo :: New York, NY</h4>  
+      {{else}}
+        <h1 class="text-center" ><a href="./home" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;">PPVMIO</a></h1>
+        <h4 class="text-center" style="color:black; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo :: New York, NY</h4>  
+      {{end}}
+      {{template "layout" .}}
     </div>
 
   </div>

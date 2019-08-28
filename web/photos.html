@@ -1,9 +1,30 @@
-{{define "content"}}
-<div style="padding-top:30px;">
-  {{range .}}
+{{define "layout"}}
+<br>
+<div class="info">
+  <center><a href="./about">contact me if you want a photo of you removed</a></center>
+</div>
+<br>
+<br>
+<div>
+  {{range .Photos}}
     <div class="col-sm-4 float-left" style="padding-bottom:30px;">
       <a href={{.Url}}><img src={{.Url}} class="img-responsive"></a>
     </div>
   {{end}}
-<div>
+</div>
+
+<style>
+
+  .info a {
+    color: rgba(190, 190, 190, 1);
+    border-left: solid;
+    padding-left: 3px;
+  }
+  .info a:hover{
+    color: rgba(0, 0, 0, 1);
+    text-decoration: none;
+    border-style: none;
+  }
+
+</style>
 {{end}}

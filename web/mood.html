@@ -1,45 +1,69 @@
-{{define "content"}}
-  <br>
-  <br>
+{{define "layout"}}
+<br>
+
+<br>
+{{if .IsMobile}}
+  <div>
+    {{range .Photos}}
+    <div class="col-sm-3 col-4 float-left">
+      <a href={{.Url}}><img src={{.Url}} class="img-responsive"></a>
+    </div>
+    {{end}}
+    <div class="col-sm-2 col-4 float-left">
+     <center><div class="button-logo" style="padding-top: 15%; padding-left: 10%">
+        <a href="./mood"><button class="btn-lg button-text">{{.Logo.Brand}}</button></a>
+      </div></center>
+    </div>
+  </div>
 
 
-  <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+{{else}}
   <div class="row">
-    <div class="col-6 col-md-4">
-      <img class="img-responsive" src="https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg">
-    </div>
-    <div class="col-6 col-md-4">
-      <img class="img-responsive" src="https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg">
-    </div>
-    <div class="col-6 col-md-4">
-      <img class="img-responsive" src="https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg">
+    {{range .Photos}}
+      <div class="col-lg-2 col-6">
+        <a href={{.Url}}><img src={{.Url}} class="img-responsive"></a>
+      </div>
+    {{end}}
+    <div class="col-lg-2 col-6">
+     <center><div class="button-logo">
+        <a href="./mood"><button class="btn-lg button-text">{{.Logo.Brand}}</button></a>
+      </div></center>
     </div>
   </div>
 
-  <!-- Columns are always 50% wide, on mobile and desktop -->
-  <div class='row'>
-    <div class='col-xs-6'>
-      <div class='row'>
-       <div class='col-xs-6'>
-         <img class='img-responsive' src='https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg'>
-       </div>
-        <div class='col-xs-6'>
-         <img class='img-responsive' src='https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg'>
-       </div>
-      </div>
-      <div class='row'>
-       <div class='col-xs-6'>
-         <img class='img-responsive' src='https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg'>
-       </div>
-        <div class='col-xs-6'>
-         <img class='img-responsive' src='https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg'>
-       </div>
-      </div>
-    </div>
-    <div class='col-xs-6'>
-      <img class='img-responsive' src='https://a.espncdn.com/media/motion/2018/0912/dm_180912_nba_nick_young_famous_missed_3/dm_180912_nba_nick_young_famous_missed_3.jpg'>
-    </div>
-  </div>
-</div>
+{{end}}
+
+
+<style>
+
+  .button-text {
+    font-family: {{.Logo.FontFamily}}; 
+    font-weight: {{.Logo.FontWeight}}; 
+    font-style : {{.Logo.FontStyle}};
+    color: {{.Logo.Color}};
+    background-color: {{.Logo.BackgroundColor}};
+    box-shadow: 2px 2px grey;
+    text-align: center
+  }
+  .button-logo {
+    vertical-align: middle;
+    margin: auto;
+
+
+  }
+
+  .row {
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    vertical-align: middle;
+    margin: 5px;
+  }
+
+
+</style>
+
 {{end}}
 
