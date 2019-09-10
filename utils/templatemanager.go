@@ -3,9 +3,10 @@ package utils
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"path/filepath"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/oxtoacart/bpool"
 )
@@ -66,7 +67,7 @@ func LoadTemplates() (err error) {
 	}
 	for _, file := range includeFiles {
 		fileName := filepath.Base(file)
-		log.Println("Loading file " + fileName)
+		log.Info("Loading file " + fileName)
 		files := append(layoutFiles, file)
 		templates[fileName], err = mainTemplate.Clone()
 		if err != nil {
@@ -75,7 +76,7 @@ func LoadTemplates() (err error) {
 		templates[fileName] = template.Must(templates[fileName].ParseFiles(files...))
 	}
 
-	log.Println("templates loading successful")
+	log.Info("templates loading successful")
 	return nil
 
 }

@@ -1,55 +1,85 @@
 {{define "layout"}}
 <br>
-
 <br>
-{{if .IsMobile}}
+  {{if .IsMobile}}
   <div>
     {{range .Photos}}
     <div class="col-sm-3 col-4 float-left">
-      <a href={{.Url}}><img src={{.Url}} class="img-responsive"></a>
+      <span data-target="#exampleModalCenter" data-toggle="modal">
+        <a href="#{{.Id}}">
+          <img src={{.Url}} class="img-responsive">
+        </a>
+      </span>    
     </div>
     {{end}}
     <div class="col-sm-2 col-4 float-left">
      <center><div class="button-logo" style="padding-top: 15%; padding-left: 10%">
-        <a href="./mood"><button class="btn-lg button-text">{{.Logo.Brand}}</button></a>
+        <a href="./mood"><button class="btn-lg button-text">Click Me</button></a>
       </div></center>
     </div>
   </div>
-
-
-{{else}}
+  {{else}}
   <div class="row">
     {{range .Photos}}
-      <div class="col-lg-2 col-6">
-        <a href={{.Url}}><img src={{.Url}} class="img-responsive"></a>
-      </div>
+    <div class="col-lg-2 col-6">
+      <span data-target="#exampleModalCenter" data-toggle="modal">
+        <a href="#{{.Id}}">
+          <img src={{.Url}} class="img-responsive">
+        </a>
+      </span>
+    </div>
     {{end}}
     <div class="col-lg-2 col-6">
      <center><div class="button-logo">
-        <a href="./mood"><button class="btn-lg button-text">{{.Logo.Brand}}</button></a>
+        <a href="./mood"><button class="btn-lg button-text">Click Me</button></a>
       </div></center>
     </div>
   </div>
 
 {{end}}
+  <!-- Modal -->
+  <div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div id="carousel-example-generic" class="carousel" data-ride="carousel">
+          <div class="carousel-inner">
+            {{range .Photos}}
+            <span class="anchor" id="{{.Id}}"></span>
+            <div class="item active">
+              <img class="img-responsive" src="{{.Url}}">
+            </div>
+            <div class="caption">
+              <h5>{{.Caption}}</h5>
+            </div>
+            {{end}}
+          </div>
+          <div class="item">
+            <center><button type="button" data-dismiss="modal">Close</button></center>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <style>
 
   .button-text {
-    font-family: {{.Logo.FontFamily}}; 
-    font-weight: {{.Logo.FontWeight}}; 
-    font-style : {{.Logo.FontStyle}};
-    color: {{.Logo.Color}};
-    background-color: {{.Logo.BackgroundColor}};
+    font-family: Helvetica,Arial,sans-serif; 
+    font-weight: bold; 
+    font-style : italic;
+    color: white;
+    background-color: red;
     box-shadow: 2px 2px grey;
     text-align: center
   }
+  
   .button-logo {
     vertical-align: middle;
     margin: auto;
-
-
   }
 
   .row {
@@ -60,6 +90,23 @@
   img {
     vertical-align: middle;
     margin: 5px;
+  }
+
+  .modal-content {
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+  }
+
+  .caption {
+    color: white;
+    padding-left: 2%;
+  }
+
+  .anchor{
+    display: block;
+    height: 200px; /*same height as header*/
+    margin-top: -200px; /*same height as header*/
+    visibility: hidden;
   }
 
 

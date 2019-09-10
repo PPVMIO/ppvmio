@@ -3,9 +3,12 @@
     <title>PP</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
       /* Remove the navbar's default margin-bottom and rounded borders */ 
@@ -80,17 +83,16 @@
   </head>
   <body>
   {{if .Background}}
-    <div class="bg">
+  <div class="bg">
   {{end}}  
-    <nav class="navbar">
+    <nav class="navbar top-bar fixed">
       <div class="container-fluid"></div>
       <a class="navbar-brand">
         {{if .DarkTheme}}
-          <span style="font-size:16px;cursor:pointer;color:white" onclick="openNav()">&#9776; Menu </span>
+        <span style="font-size:16px;cursor:pointer;color:white" onclick="openNav()">&#9776; Menu </span>
         {{else}}
-          <span style="font-size:16px;cursor:pointer;color:black" onclick="openNav()">&#9776; Menu </span>
+        <span style="font-size:16px;cursor:pointer;color:black" onclick="openNav()">&#9776; Menu </span>
         {{end}}
-        
       </a>
     </nav>
   
@@ -101,15 +103,16 @@
       <a href="./projects">Projects</a>
       <a href="./photos">Photos</a>
       <a href="./mood">Mood</a>
+
     </div> 
 
     <div class="container"> 
       {{if .DarkTheme}}
-        <h1 class="text-center" ><a href="./home" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;">PPVMIO</a></h1>
-        <h4 class="text-center" style="color:white; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo :: New York, NY</h4>  
+      <h1 class="text-center" ><a href="./home" style="color:white; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;">PPVMIO</a></h1>
+      <h4 class="text-center" style="color:white; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo :: New York, NY</h4>  
       {{else}}
-        <h1 class="text-center" ><a href="./home" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;">PPVMIO</a></h1>
-        <h4 class="text-center" style="color:black; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo :: New York, NY</h4>  
+      <h1 class="text-center" ><a href="./home" style="color:black; padding-top:10px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif;">PPVMIO</a></h1>
+      <h4 class="text-center" style="color:black; font-family: Helvetica Neue,Helvetica,Arial,sans-serif; ">Paul Pelayo :: New York, NY</h4>  
       {{end}}
       {{template "layout" .}}
     </div>
