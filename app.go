@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -19,6 +20,7 @@ var moodboardPagePhotos []Photo
 var photosPagePhotos []Photo
 var moodboardBackgroundGifs []string
 var backgroundImages []string
+var aboutBackgroundGifs []string
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -34,6 +36,7 @@ func main() {
 	go refreshPhotosPagePhotos()
 	go refreshMoodboardPagePhotos()
 	go refreshMoodboardBackgroundGifs()
+	go refreshAboutGifs()
 
 	utils.LoadTemplates()
 
@@ -71,7 +74,7 @@ func mood(w http.ResponseWriter, r *http.Request) {
 
 func about(w http.ResponseWriter, r *http.Request) {
 	detect := mobiledetect.NewMobileDetect(r, nil)
-	l := Layout{true, true, backgroundImages[rand.Intn(len(backgroundImages))], nil, detect.IsMobile()}
+	l := Layout{true, true, aboutBackgroundGifs[rand.Intn(len(aboutBackgroundGifs))], nil, detect.IsMobile()}
 	utils.RenderTemplate(w, "about.html", l)
 }
 
@@ -91,6 +94,19 @@ func photos(w http.ResponseWriter, r *http.Request) {
 func shufflePhotos(photos []Photo) []Photo {
 	rand.Shuffle(len(photos), func(i, j int) { photos[i], photos[j] = photos[j], photos[i] })
 	return photos
+}
+
+func refreshAboutGifs() {
+	for {
+		log.Info("Refreshing About Gifs")
+		var s3Gifs = svc.RetrieveObjects("about/")
+		var backgroundURLs []string
+		for _, images := range s3Gifs {
+			backgroundURLs = append(backgroundURLs, s3BaseURL+*images.Key)
+		}
+		aboutBackgroundGifs = backgroundURLs
+		time.Sleep(5 * time.Minute)
+	}
 }
 
 func refreshBackgroundImages() {
@@ -144,7 +160,7 @@ func refreshMoodboardPagePhotos() {
 			captionChannel := make(chan string)
 			go retrieveCaptionFromPhotoName(*item.Key, captionChannel)
 			caption := <-captionChannel
-			p := Photo{s3BaseURL + *item.Key, caption, id}
+			p := Photo{s3BaseURL + *item.Key, template.HTML(caption), id}
 			photos = append(photos, p)
 		}
 		moodboardPagePhotos = photos
@@ -153,7 +169,7 @@ func refreshMoodboardPagePhotos() {
 }
 
 func retrieveCaptionFromPhotoName(photoKey string, captionChannel chan string) {
-	captionKey := strings.Replace(strings.Replace(photoKey, ".jpg", ".txt", 1), "/photos/", "/captions/", 1)
+	captionKey := strings.Replace(strings.Replace(photoKey, ".jpg", ".html", 1), "/photos/", "/captions/", 1)
 	log.Debug("Retrieving Caption " + s3BaseURL + captionKey)
 	resp, err := http.Get(s3BaseURL + captionKey)
 	if err != nil || resp.StatusCode != http.StatusOK {
@@ -179,6 +195,6 @@ type Layout struct {
 
 type Photo struct {
 	Url     string
-	Caption string
+	Caption template.HTML
 	Id      string
 }

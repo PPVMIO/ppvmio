@@ -1,23 +1,30 @@
 {{define "layout"}}
 <br>
-<div class="jumbotron">
+<div class="jumbotron" id="about-content">
   <div class="jumbotron-content text-center">
     <h2><a href="https://www.linkedin.com/in/paul-pelayo-b9629596/">SOFTWARE ENGINEER</a></h2>
     <br>
-    <h2 style="padding-left:2%"><a href="https://www.youtube.com/watch?v=zAncT9CTeBY">WISCONSIN NATIVE</a></h2>
+    <h2 style="padding-right:4%"><a href="./mood">ASPIRING CREATIVE</a></h2>
+    <br>
+    <h2 style="padding-left:4%"><a href="http://mywalworthcounty.com/?p=417">WISCONSIN NATIVE</a></h2>
     <br>
     <h2><a href="https://open.spotify.com/playlist/78cNQQLVnoewp0LlK7OEkJ?si=S6pMqpQvT4yOk3HCcKEdtQ">TWO BRIDGES RESIDENT</a></h2>
     <br>
-    <h2 style="padding-right:2%"><a href="./mood">ASPIRING CREATIVE</a></h2>
+
+    <h2 style="padding-left:4%"><a href="https://www.google.com/search?q=two+bridges+to+nowadays">NIGHTLIFE ACTIVIST</a></h2>
     <br>
-    <h2 style="padding-left:2%"><a href="https://www.google.com/search?q=two+bridges+to+nowadays">NIGHTLIFE ACTIVIST</a></h2>
+    <h2 style="padding-right:2%"><a href="https://github.com/ppelayo">GITHUB</a></h2>
     <br>
-    <h2 style="padding-right:2%"><a href="https://www.instagram.com/pp_pics/">INSTAGRAM</a></h2>
+    <h2 style="padding-right:4%"><a href="https://www.instagram.com/pp_pics/">INSTAGRAM</a></h2>
     <br>
-    <h2 style="padding-right:3%"><a href="https://soundcloud.com/pelayo-paul/sets/alone-not-lonely">SOUNDCLOUD</a></h2>
+    <h2 style="padding-right:6%"><a href="https://soundcloud.com/pelayo-paul/sets/alone-not-lonely">SOUNDCLOUD</a></h2>
     <br>
-    <h2><a href="mailto:paul.e.pelayo@gmail.com">CONTACT</a></h2>
+    <h2><a href="mailto:paul.e.pelayo@gmail.com">CONTACT ME</a></h2>
   </div>
+</div>
+<div class="fit-changer text-center">
+  <button onClick="toggleJumbotron()" id="toggle">show my fit</button>
+  <button><a href="./about" style="color: black;">change my fit</a></button>
 </div>
 <style>
   .jumbotron-content h2{
@@ -38,15 +45,21 @@
     text-decoration: none;
     border-style: none;
   }
-  .jumbotron-content h3{
-    font-size: 16px;
-    padding-bottom: 10px;
-    margin-bottom: 0px;
-    color: rgba(173, 173, 173, 1);
-    padding-left: 15%;
-  }
-
 </style>
+<script>
+
+  function toggleJumbotron() {
+    console.log("toggleJumbotron")
+    visibility = document.getElementById("about-content").style.visibility;
+    if (visibility === 'hidden') {
+      document.getElementById("about-content").style.visibility = 'visible';
+      document.getElementById("toggle").value = 'show my fit';
+    } else {
+      document.getElementById("about-content").style.visibility = 'hidden';
+      document.getElementById("toggle").value = 'show about section';
+    }
+  }
+</script>
 
 
 {{end}}

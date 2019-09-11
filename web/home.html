@@ -1,18 +1,35 @@
 {{define "layout"}}
 
-<div>
+<div class="portfolio text-center"  style="display: inline-block; text-align: left;">
+  <div style="display: inline-block; text-align: left;">
+    <h5>welcome to my website</h5>
+    <h5>don't think too hard</h5>
+    <h5>just click around</h5>
+    <br>
+    <h5>also, just so you know</h5>
+    <h4><b><i>you can touch the net</i></b></h4>
+    <h5>and tear it</h5>
+    <br>
+    <h5>enjoy!</h5>
+  </div>
+</div>
+
+<div class="text-center">
   <canvas class="center-block" id="canvas"></canvas>
 </div>
-<br>
 <br>
 <div class="info">
   <center><a href="https://github.com/dissimulate/Tearable-Cloth">animation adapted from tearable cloth</a></center>
 </div>
+<br>
+<center><a href="./home" style="color: black;"><button>reset</button></a></center>
+
 <style>
   .info a {
     color: rgba(255, 255, 255, 1);
     border-left: double;
     padding-left: 3px;
+    font-size: 8px;
   }
   
   .info a:hover{
@@ -22,16 +39,23 @@
   }
 
   .portfolio {
-    height: 1px;
-    width: 130px;
     position: absolute;
-    left: 50%;
-    margin-left: -50px;
-    top: 50%;
-    margin-top: -50px;
-    color: white
-
+    {{if .IsMobile}}
+    left: 28%;
+    top: 35%;
+    {{else}}
+    left: 40%;
+    top: 30%;
+    {{end}}
+    color: white;
+    height: 0.1px;
   }
+
+  #canvas {
+    position: relative;
+    z-index: 5;
+  }
+
 </style>
 
 <script>
@@ -82,7 +106,7 @@
     canvas.width = Math.min(1000, window.innerWidth)
     canvas.height = 500
     mouse = {
-      cut: 8,
+      cut: 14,
       influence: 26,
       down: true,
       button: 1,
@@ -95,17 +119,18 @@
     canvas.width = Math.min(300, window.innerWidth)
     canvas.height = 295
     accuracy = 5
-    gravity = 10
+    gravity = 0
     clothY = 33
     clothX = 50
     spacing = 8
-    tearDist = 25
-    bounce = 5.5
+    tearDist = 40
+    friction = 0.97
+    bounce = 0.5
 
     mouse = {
       cut: 8,
-      influence: 26,
-      down: false,
+      influence: 8,
+      down: true,
       button: 1,
       x: 0,
       y: 0,
@@ -300,9 +325,8 @@
     mouse.x = mouse.x
     mouse.y = mouse.y
   }
-  if (!isMobile) {
-    canvas.onmousemove = setMouse
-  } 
+
+  canvas.onmousemove = setMouse
 
   canvas.oncontextmenu = (e) => e.preventDefault()
   

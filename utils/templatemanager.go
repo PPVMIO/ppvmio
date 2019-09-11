@@ -82,7 +82,6 @@ func LoadTemplates() (err error) {
 }
 
 func RenderTemplate(w http.ResponseWriter, name string, data interface{}) error {
-
 	tmpl, ok := templates[name]
 	if !ok {
 		http.Error(w, fmt.Sprintf("The template %s does not exist.", name),
