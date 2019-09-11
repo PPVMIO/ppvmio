@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -44,11 +45,15 @@ func main() {
 	http.HandleFunc("/mood", mood)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/about", about)
+	http.HandleFunc("/health", health)
 
 	log.Info("Listening on port 3000")
 	http.ListenAndServe(":3000", nil)
 }
 
+func health(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Healthy as a horse!")
+}
 func projects(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "projects.html", nil)
 }
