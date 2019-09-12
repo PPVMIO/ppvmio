@@ -40,9 +40,7 @@ func main() {
 
 	utils.LoadTemplates()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/home", 301)
-	})
+	http.HandleFunc("/", home)
 	http.HandleFunc("/home", home)
 	http.HandleFunc("/photos", photos)
 	http.HandleFunc("/mood", mood)
