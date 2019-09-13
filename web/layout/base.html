@@ -18,6 +18,9 @@
         position: fixed; /* Set the navbar to fixed position */
         width: 100%; /* Full width */
         z-index: 10;
+        {{if not .Background}}
+        background-color: white;
+        {{end}}  
       }
       
       /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
@@ -90,11 +93,11 @@
   {{end}}  
     <nav class="navbar top-bar fixed">
       <div class="container-fluid"></div>
-      <a class="navbar-brand">
+      <a class="navbar-brand" style="height: 100%;">
         {{if .DarkTheme}}
-        <span style="font-size:16px;cursor:pointer;color:white" onclick="openNav()">&#9776; Here is the menu </span>
+        <span style="font-size:16px;cursor:pointer;color:white" onclick="openNav()">&#9776; The Menu </span>
         {{else}}
-        <span style="font-size:16px;cursor:pointer;color:black" onclick="openNav()">&#9776; Here is the menu </span>
+        <span style="font-size:16px;cursor:pointer;color:black" onclick="openNav()">&#9776; The Menu </span>
         {{end}}
       </a>
     </nav>
@@ -107,6 +110,7 @@
         <a href="./photos">Does he have any friends?</a>
         <!--<a href="./projects">What does he work on?</a>-->
         <a href="./mood">What inspires him?</a>
+        <a href="./wtf">What is this?</a>
       </div>
     </div> 
 

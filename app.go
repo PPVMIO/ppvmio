@@ -15,7 +15,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var s3BaseURL = "http://photos-ppvmio-public.s3.amazonaws.com/"
+var cloudFrontBaseURL = "https://du6xmiczrsmmq.cloudfront.net/"
 var moodboardPagePhotos []Photo
 var photosPagePhotos []Photo
 var moodboardBackgroundGifs []string
@@ -46,6 +46,7 @@ func main() {
 	http.HandleFunc("/mood", mood)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/about", about)
+	http.HandleFunc("/wtf", wtf)
 	http.HandleFunc("/health", health)
 
 	log.Info("Listening on port 3000")
@@ -54,6 +55,11 @@ func main() {
 
 func health(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Healthy as a horse!")
+}
+func wtf(w http.ResponseWriter, r *http.Request) {
+	detect := mobiledetect.NewMobileDetect(r, nil)
+	l := Layout{false, false, "", nil, detect.IsMobile()}
+	utils.RenderTemplate(w, "wtf.html", l)
 }
 func projects(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "projects.html", nil)
@@ -100,7 +106,7 @@ func refreshAboutGifs() {
 		var s3Gifs = svc.RetrieveObjects("about/")
 		var backgroundURLs []string
 		for _, images := range s3Gifs {
-			backgroundURLs = append(backgroundURLs, s3BaseURL+*images.Key)
+			backgroundURLs = append(backgroundURLs, cloudFrontBaseURL+*images.Key)
 		}
 		aboutBackgroundGifs = backgroundURLs
 		time.Sleep(5 * time.Minute)
@@ -113,7 +119,7 @@ func refreshBackgroundImages() {
 		var s3Gifs = svc.RetrieveObjects("background/")
 		var backgroundURLs []string
 		for _, images := range s3Gifs {
-			backgroundURLs = append(backgroundURLs, s3BaseURL+*images.Key)
+			backgroundURLs = append(backgroundURLs, cloudFrontBaseURL+*images.Key)
 		}
 		backgroundImages = backgroundURLs
 		time.Sleep(5 * time.Minute)
@@ -126,7 +132,7 @@ func refreshMoodboardBackgroundGifs() {
 		var s3Gifs = svc.RetrieveObjects("mood/gifs/")
 		var gifURLs []string
 		for _, gif := range s3Gifs {
-			gifURLs = append(gifURLs, s3BaseURL+*gif.Key)
+			gifURLs = append(gifURLs, cloudFrontBaseURL+*gif.Key)
 		}
 		moodboardBackgroundGifs = gifURLs
 		time.Sleep(5 * time.Minute)
@@ -140,7 +146,7 @@ func refreshPhotosPagePhotos() {
 		var photos []Photo
 		for _, item := range s3Photos {
 			id := strings.Replace(strings.Replace(*item.Key, ".jpg", "", 1), "website/", "", 1)
-			p := Photo{s3BaseURL + *item.Key, "", id}
+			p := Photo{cloudFrontBaseURL + *item.Key, "", id}
 			photos = append(photos, p)
 		}
 		photosPagePhotos = photos
@@ -158,7 +164,7 @@ func refreshMoodboardPagePhotos() {
 			captionChannel := make(chan string)
 			go retrieveCaptionFromPhotoName(*item.Key, captionChannel)
 			caption := <-captionChannel
-			p := Photo{s3BaseURL + *item.Key, template.HTML(caption), id}
+			p := Photo{cloudFrontBaseURL + *item.Key, template.HTML(caption), id}
 			photos = append(photos, p)
 		}
 		moodboardPagePhotos = photos
@@ -168,8 +174,8 @@ func refreshMoodboardPagePhotos() {
 
 func retrieveCaptionFromPhotoName(photoKey string, captionChannel chan string) {
 	captionKey := strings.Replace(strings.Replace(photoKey, ".jpg", ".html", 1), "/photos/", "/captions/", 1)
-	log.Debug("Retrieving Caption " + s3BaseURL + captionKey)
-	resp, err := http.Get(s3BaseURL + captionKey)
+	log.Debug("Retrieving Caption " + cloudFrontBaseURL + captionKey)
+	resp, err := http.Get(cloudFrontBaseURL + captionKey)
 	if err != nil || resp.StatusCode != http.StatusOK {
 		captionChannel <- ""
 	}
