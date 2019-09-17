@@ -1,8 +1,14 @@
 {{define "layout"}}
 <br>
-<div class="container">
-  <div class="article">
-    <!-- Button trigger modal -->
+  <center>I stole the idea for this page from <a href="https://auxcorde.com/wtf">auxcode</a></center>
+<br>
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#story"><h4>The Story</h4></a></li>
+  <li><a data-toggle="tab" href="#tech"><h4>The Tech</h4></a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="story" class="tab-pane active">
     <p>End of summer 2019, I find myself leaving my first job after college for a new role and end up with more than a month of free time. I considered traveling but couldn’t find anyone to travel with and couldn’t determine a destination that made sense at the time. Much to my surprise, I found that I had the urge actual code and to build something for myself rather than someone else. </p>
     <p>PPVMIO started from a bunch of photos I’ve been amassing, all taken on Fujifilm 35mm disposable cameras. These would eventually become the "Does he have any friends?" page</a>. Using disposable cameras is, needless to say, quite different when compared to using an iPhone or a DSLR. The limited number of photos on a single camera cause most people to be more careful about what they choose to capture.</p>
     <p>I wanted my photos on 35mm film, cuz it looks artsy or whatever, but I also wanted the freedom to take a photo with minimal regard for time, place, or photos left. I bought disposable cameras in bulk off of Amazon in an attempt to not feel so constrained by a finite amount of shots. I ended up using my nights out for subject matter; the driving idea being, what happens if, when I go out, instead of taking a bunch of shitty photos with my iPhone, I do it with a disposable camera? I found this approach created a sense of spontaneity, I was capturing whimsical moments while still producing appealing and entertaining images.</p>
@@ -10,32 +16,58 @@
     <p>I ened up creating a platform to share my life without being subject to a timeline, an algorithm, number of likes or followers, which, in my opinion, is a refreshing change from traditional social media.</p>
     <p>So to answer the question, what is this? It’s kind of my finsta but also a resume, but also a bunch of ideas all compiled together. It’s like a snapshot of everything in my head or maybe you could equate it to a pop up shop of my life, where there are neat little displays of my thoughts and experiences scattered throughout; the medium being a website. I’m proud of the work I put into this site and I’m really happy with the way it turned out. I hope you can appreciate it.</p>
   </div>
+  <div id="tech" class="tab-pane">
+
+    <h2>The Application</h2>
+
+    <p>Deciding which language to use for this project was a big hurdle in the beginning. I come from a cloud infrastructure background where one of the languages rising in popularity is a language called <a href="https://golang.org/Go">Go</a>.  At my previous job, we always talked about building production applications using Go, for both latency purposes and to keep up with industry standards; however, due to time constraints, existing code bases, and enterprise wide infrastructure, we primarily used Java. Now, I felt, would be a great opportunity to learn a new language.</p>
+
+    <p>That being said, I was torn. I wanted ppvm.io to be a highly visual experience. For these types of projects, using a javascript framework such as React, Angular, or Vue is <a href="https://www.webdatarocks.com/blog/best-frontend-frameworks-2019/">standard</a>. These libraries provide much better tooling for building frontend applications but up until this project my experience had almost always been focused around backend development. Concepts such as single page applications, frontend routing, and building reusable html components seemed foreign and I was worried that I would end up spending all of my time learning one of these libraries rather than building an actual site.</p>
+
+    <p>Thus, I decided to go with my initial plan, run a simple Go server that would fetch data from a backend service - this ended up being s3 - then dynamically render html by templating the files and passing objects from the server to the files.</p> 
+
+    <p>After completing the project and reflecting back on this decision, I will (probably) not be designing any more frontend applications this way. Despite my effort to create my templates as efficiently as possible, I ended up copying and pasting a lot of html - if I had been using a frontend framework this could have been avoided using components. I also ended up adding a lot of logic to the frontend. For example, I wanted all the pages that have a background image or gif to use a white color for the title, whereas pages without a background would use a dark color. I realize now that frontend frameworks are designed for these specific purposes. In order to get this to work I had to hard code the logic on the server side. The biggest disadvantage ended up being how new images are generated when buttons are clicked. As you may have noticed, there are numerous buttons that end up refreshing the page in order to pull new images and gifs on screen. This triggers a request to the server which, in turn, has to render a completely new html page, and then send it to the user thus slowing the experience down. With a frontend framework, I could have avoided ever having to make the server regenerate a page, everything could have been done on the client side.</p>
+
+    <p>Still, I was able to accomplish my goal of learning basics about Go. I built a simple API with some basic routing and handler methods. I was also able to take advantage of Go’s first class support for multithreading to improve the efficiency of the server. I added several background running processes that reach out to the backend to determine which images will be placed on screen and will refresh periodically to pick up any new content I may have added.</p>
+
+
+    <h2>Devops and Infrastructure</h2>
+    <p>This project was also an exercise in learning some basics about  Amazon Web Services as well as open sourced devops tooling. To build the application a combination of Github and Docker Hub were used. I setup a <a href="https://cloud.docker.com/u/ppdocx/repository/docker/ppdocx/ppvmio">docker project</a> to integrate with my <a href="https://github.com/ppelayo/ppvmio">GitHub</a> and to build an image on any push to master or any new tags added to the repository.</p>
+
+    <p>On the AWS side of things, I first started by setting up an <a href="https://aws.amazon.com/s3/">AWS S3</a> bucket to store the content for my website. I then added the Go AWS SDK to my project and worked locally to make sure the application could properly pull content from S3. Once I had an MVP, I worked on deploying the application using AWS ECS. I debated between running my containers on <a href="https://www.dragonspears.com/blog/aws-container-orchestration-101-ecs-vs-fargate-vs-eks">Fargate, EC2, or EKS</a>. I eventually decided on Fargate as it seemed like the simplest and (hopefully) the cheapest option. I setup a cluster with two services. The first one was to be for nonprod. This service has one task (one container) and will always pull the latest docker image. The second service was the production version, this is the version you are seeing on your screen. This service runs two tasks (two containers) and will always use a tagged version so I could be certain about which features were part of the build. After this, I added a loadbalancer to the production service which round robins between both containers. I used <a href="https://aws.amazon.com/route53/">AWS Route 53</a> to purchase my domain name and <a href="https://aws.amazon.com/certificate-manager/">AWS Certificate Manager</a> to provision a cert for TLS. Both are now configured in conjunction with the loadbalancer to send traffic to the site via the URL. The last thing I did was use <a href="https://aws.amazon.com/cloudfront/">AWS Cloudfront</a> to setup a CDN for all of my images to improve caching for the site.</p>
+
+    <p>This being my first ever experience with AWS, my initial reaction was “wow, this is easy.” With my prior experience coming from working for an enterprise that built everything in house, certain parts of the deployment process felt disjointed. I often spent a lot of my time attempting to connect all the components - CICD, change management, database credentials, loadbalancer configuration, etc. - whereas AWS has everything tightly integrated. As a side note, it’s unfair to compare the internal infrastructure of any 100+ year old enterprise to the infrastructure of Amazon, who has been investing in <a href="https://techcrunch.com/2016/07/02/andy-jassys-brief-history-of-the-genesis-of-aws/">scalable infrastructure</a> since their inception and essentially invented the public cloud market. I feel strongly that my initial growing pains working with this fragmented setup at my previous employer has helped me develop a deep understanding of how everything fits together and has allowed me to learn all of these AWS basics in under a month.</p>
+
+  </div>
 </div>
+
 
 <style>
 
-  .article > * {
-      min-width: 0;
+  .tab-pane p {
+    --x-height-multiplier: 0.375;
+    --baseline-multiplier: 0.17;
+    letter-spacing: .01rem;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.58;
+    letter-spacing: -.003em;
+    color: rgba(0,0,0,.84);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+    margin: 2%;
   }
 
-  .article > h1 {
-      font-family: Lucida Grande;
+  .tab-pane a {
+    font-family: Georgia,Cambria,"Times New Roman",Times,serif;
   }
 
-  .article > p {    
-      --x-height-multiplier: 0.375;
-      --baseline-multiplier: 0.17;
-      font-family: Georgia,Cambria,"Times New Roman",Times,serif;
-      letter-spacing: .01rem;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 16px;
-      line-height: 1.58;
-      letter-spacing: -.003em;
-      color: rgba(0,0,0,.84);
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
+  .tab-pane h2{
+    margin: 2%;
   }
+
 
 </style>
 {{end}}
