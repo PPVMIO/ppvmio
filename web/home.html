@@ -109,7 +109,7 @@
 
   
   if (!isMobile) {
-    canvas.width = Math.min(1000, window.innerWidth)
+    canvas.width = Math.min(1000, window.innerWidth*.8)
     canvas.height = 500
     mouse = {
       cut: 14,
@@ -122,7 +122,7 @@
       py: 0
     }
   } else {
-    canvas.width = Math.min(300, window.innerWidth)
+    canvas.width = Math.min(300, window.innerWidth*.8)
     canvas.height = 295
     accuracy = 5
     gravity = 0
