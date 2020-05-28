@@ -17,4 +17,5 @@
 vendor/
 
 config/config.yaml
+web/node_modules
 notes
