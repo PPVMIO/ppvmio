@@ -28,8 +28,11 @@ go run app.go
 docker build -t <name of container> .
 ```
 
-2. You'll need to mount the aws folder into the container 
+2. You'll need to mount the aws folder into the container and pass an environment variable to load from the default aws config directory.
 
+```
+docker run -p 3000:3000 -v $HOME/.aws:/root/.aws -e AWS_SDK_LOAD_CONFIG=1 <name of container>
+```
 
 ## Build Process
 
@@ -37,7 +40,7 @@ docker build -t <name of container> .
 
 * Link to [docker image](https://hub.docker.com/repository/docker/ppdocx/ppvmio)
 
-Pushes to git will trigger a docker build
+Pushes to git and tagging a release will trigger a docker build
 
 ### AWS
 

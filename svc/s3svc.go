@@ -29,7 +29,12 @@ func init() {
 }
 func RetrieveObjects(prefix string) []*s3.Object {
 	bucket := "photos-ppvmio-public"
-	resp, _ := svc.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: aws.String(bucket)})
+	resp, err := svc.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: aws.String(bucket)})
+
+	if err != nil {
+		log.Println(err)
+	}
+
 	contents := resp.Contents
 
 	n := 0

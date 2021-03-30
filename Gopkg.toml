@@ -25,7 +25,22 @@
 #   unused-packages = true
 
 
+[[constraint]]
+  name = "github.com/Shaked/gomobiledetect"
+  version = "1.2.0"
+
+[[constraint]]
+  name = "github.com/aws/aws-sdk-go"
+  version = "1.38.8"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/oxtoacart/bpool"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.8.1"
+
 [prune]
   go-tests = true
   unused-packages = true
-
