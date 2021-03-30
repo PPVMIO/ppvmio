@@ -1,4 +1,4 @@
-FROM golang
+FROM golang:1.15.7
 
 RUN go get -u github.com/golang/dep/cmd/dep
 

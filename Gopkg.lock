@@ -2,16 +2,127 @@
 
 
 [[projects]]
-  digest = "1:3af6be4fee7c08f81f13d36f04ffb63ad4b6b5aaba12cce96095c7c2863d4912"
-  name = "github.com/gorilla/mux"
+  digest = "1:e8798b502fb00de4430f49d0f4dde7cc98506438c79564e864600c0a0411c108"
+  name = "github.com/Shaked/gomobiledetect"
   packages = ["."]
   pruneopts = "UT"
-  revision = "ed099d42384823742bba0bf9a72b53b55c9e2e38"
-  version = "v1.7.2"
+  revision = "0a3a6a10dadbf7d0ceed42834238ea0f8fb582ac"
+  version = "1.2.0"
+
+[[projects]]
+  digest = "1:487365f66dc30ed8c85fb18a8ec1c53f6d9cce11e2d2cdc9c566dfde145bbb9a"
+  name = "github.com/aws/aws-sdk-go"
+  packages = [
+    "aws",
+    "aws/arn",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/corehandlers",
+    "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/processcreds",
+    "aws/credentials/ssocreds",
+    "aws/credentials/stscreds",
+    "aws/csm",
+    "aws/defaults",
+    "aws/ec2metadata",
+    "aws/endpoints",
+    "aws/request",
+    "aws/session",
+    "aws/signer/v4",
+    "internal/context",
+    "internal/ini",
+    "internal/s3shared",
+    "internal/s3shared/arn",
+    "internal/s3shared/s3err",
+    "internal/sdkio",
+    "internal/sdkmath",
+    "internal/sdkrand",
+    "internal/sdkuri",
+    "internal/shareddefaults",
+    "internal/strings",
+    "internal/sync/singleflight",
+    "private/checksum",
+    "private/protocol",
+    "private/protocol/eventstream",
+    "private/protocol/eventstream/eventstreamapi",
+    "private/protocol/json/jsonutil",
+    "private/protocol/jsonrpc",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
+    "private/protocol/rest",
+    "private/protocol/restjson",
+    "private/protocol/restxml",
+    "private/protocol/xml/xmlutil",
+    "service/s3",
+    "service/s3/s3iface",
+    "service/s3/s3manager",
+    "service/sso",
+    "service/sso/ssoiface",
+    "service/sts",
+    "service/sts/stsiface",
+  ]
+  pruneopts = "UT"
+  revision = "0e4b7a753c6eb06d011d4b142378460428750bdf"
+  version = "v1.38.8"
+
+[[projects]]
+  digest = "1:c79fb010be38a59d657c48c6ba1d003a8aa651fa56b579d959d74573b7dff8e1"
+  name = "github.com/gorilla/context"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
+  version = "v1.1.1"
+
+[[projects]]
+  digest = "1:bb81097a5b62634f3e9fec1014657855610c82d19b9a40c17612e32651e35dca"
+  name = "github.com/jmespath/go-jmespath"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "c2b33e84"
+
+[[projects]]
+  branch = "master"
+  digest = "1:8ad686b49b509bf03549281c04b5fe11f609e9b12bf34a0690acad8cecc94f15"
+  name = "github.com/oxtoacart/bpool"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "03653db5a59cd88b481403d312d7c324b56af377"
+
+[[projects]]
+  digest = "1:819b22a75ddd43c69965c9582dcab34a077f2d3f543bf8832126b275ea6953e6"
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bdc0db8ead3853c56b7cd1ac2ba4e11b47d7da6b"
+  version = "v1.8.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:b04593940bbeb66ce68b41f25035f7e30a60a14d93b24b3d79c83dd34d7749c1"
+  name = "golang.org/x/sys"
+  packages = [
+    "internal/unsafeheader",
+    "unix",
+    "windows",
+  ]
+  pruneopts = "UT"
+  revision = "49726bf1d181babaebde545fbf1353be26485fb0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/gorilla/mux"]
+  input-imports = [
+    "github.com/Shaked/gomobiledetect",
+    "github.com/aws/aws-sdk-go/aws",
+    "github.com/aws/aws-sdk-go/aws/session",
+    "github.com/aws/aws-sdk-go/service/s3",
+    "github.com/aws/aws-sdk-go/service/s3/s3manager",
+    "github.com/oxtoacart/bpool",
+    "github.com/sirupsen/logrus",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
