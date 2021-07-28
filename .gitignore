@@ -21,3 +21,5 @@ web/node_modules
 notes
 
 .env
+
+s3
