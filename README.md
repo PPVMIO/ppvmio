@@ -64,6 +64,8 @@ docker push ppdocx/ppvmio:<VERSION TAG>
 
 ### AWS
 
+**Update Task**
+
 To deploy the new tag to the [fargate cluster](https://console.aws.amazon.com/ecs/home?region=us-east-1#/clusters/ppvmio-cluster)
 
 1. Navigate to the UI and [create a new task revision](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-task-definition.html).
@@ -80,10 +82,20 @@ To refresh the cloudfront catche run
 aws cloudfront create-invalidation --distribution-id E20PNAIG7SWPHU --paths "/*"
 ```
 
+**Force New Deployment**
+
+To force a new deployment run
+
+```
+aws ecs update-service --cluster ppvmio-cluster --service ppvmio-prod --force-new-deployment
+```
+
 ### Photo Resizing
 You can use ffmpeg to resize photos before uploading to s3 in order to compress size of photos + speed up page load time. Run the following command to convert all `*.jpg` photos in a folder to size 768x515 (about 3:2 ratio).
 
-```for i in *.jpg; do ffmpeg -i "$i" -vf scale=768:515 "output_$i"; done```
+```
+for i in *.jpg; do ffmpeg -i "$i" -vf scale=768:515 "output_$i"; done
+```
 
 
 ## Improvements
