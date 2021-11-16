@@ -1,0 +1,13 @@
+{{define "layout"}}
+<br>
+<center><h5>twenty 21</h5></center>
+<br>
+<div>
+  {{range .Photos}}
+    <div class="col-sm-4 float-left" style="padding-bottom:30px;">
+      <img src={{.Url}} class="img-responsive">
+    </div>
+  {{end}}
+</div>
+
+{{end}}
