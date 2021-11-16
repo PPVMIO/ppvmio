@@ -80,6 +80,10 @@ To refresh the cloudfront catche run
 aws cloudfront create-invalidation --distribution-id E20PNAIG7SWPHU --paths "/*"
 ```
 
+### Photo Resizing
+You can use ffmpeg to resize photos before uploading to s3 in order to compress size of photos + speed up page load time. Run the following command to convert all `*.jpg` photos in a folder to size 768x515 (about 3:2 ratio).
+
+```for i in *.jpg; do ffmpeg -i "$i" -vf scale=768:515 "output_$i"; done```
 
 
 ## Improvements

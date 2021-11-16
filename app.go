@@ -17,8 +17,8 @@ import (
 
 var cloudFrontBaseURL = "https://du6xmiczrsmmq.cloudfront.net/"
 var moodboardPagePhotos []Photo
-var fw19Photos []Photo
-var ss21Photos []Photo
+var twentyNineteenPhotos []Photo
+var twentyTwentyOnePhotos []Photo
 var moodboardBackgroundGifs []string
 var backgroundImages []string
 var aboutBackgroundGifs []string
@@ -44,8 +44,8 @@ func main() {
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/home", home)
-	http.HandleFunc("/fw19", fw19)
-	http.HandleFunc("/ss21", ss21)
+	http.HandleFunc("/2019", twentyNineteen)
+	http.HandleFunc("/2021", twentyTwentyOne)
 	http.HandleFunc("/mood", mood)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/about", about)
@@ -91,18 +91,18 @@ func home(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "home.html", l)
 }
 
-func fw19(w http.ResponseWriter, r *http.Request) {
+func twentyNineteen(w http.ResponseWriter, r *http.Request) {
 	detect := mobiledetect.NewMobileDetect(r, nil)
 	l := Layout{false, false, "", nil, detect.IsMobile()}
-	l.Photos = shufflePhotos(fw19Photos)
-	utils.RenderTemplate(w, "fw19.html", l)
+	l.Photos = shufflePhotos(twentyNineteenPhotos)
+	utils.RenderTemplate(w, "2019.html", l)
 }
 
-func ss21(w http.ResponseWriter, r *http.Request) {
+func twentyTwentyOne(w http.ResponseWriter, r *http.Request) {
 	detect := mobiledetect.NewMobileDetect(r, nil)
 	l := Layout{false, false, "", nil, detect.IsMobile()}
-	l.Photos = shufflePhotos(ss21Photos)
-	utils.RenderTemplate(w, "ss21.html", l)
+	l.Photos = shufflePhotos(twentyTwentyOnePhotos)
+	utils.RenderTemplate(w, "2021.html", l)
 }
 
 func shufflePhotos(photos []Photo) []Photo {
@@ -163,7 +163,7 @@ func refreshFw19PagePhotos() {
 			p := Photo{cloudFrontBaseURL + *item.Key, "", id}
 			photos = append(photos, p)
 		}
-		fw19Photos = photos
+		twentyNineteenPhotos = photos
 		time.Sleep(5 * time.Minute)
 	}
 }
@@ -179,7 +179,7 @@ func refreshSs19PagePhotos() {
 			p := Photo{cloudFrontBaseURL + *item.Key, "", id}
 			photos = append(photos, p)
 		}
-		ss21Photos = photos
+		twentyTwentyOnePhotos = photos
 		time.Sleep(5 * time.Minute)
 	}
 }
