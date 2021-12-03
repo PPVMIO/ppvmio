@@ -17,7 +17,8 @@ import (
 
 var cloudFrontBaseURL = "https://du6xmiczrsmmq.cloudfront.net/"
 var moodboardPagePhotos []Photo
-var photosPagePhotos []Photo
+var twentyNineteenPhotos []Photo
+var twentyTwentyOnePhotos []Photo
 var moodboardBackgroundGifs []string
 var backgroundImages []string
 var aboutBackgroundGifs []string
@@ -33,7 +34,8 @@ func init() {
 func main() {
 
 	go refreshBackgroundImages()
-	go refreshPhotosPagePhotos()
+	go refreshFw19PagePhotos()
+	go refreshSs19PagePhotos()
 	go refreshMoodboardPagePhotos()
 	go refreshMoodboardBackgroundGifs()
 	go refreshAboutGifs()
@@ -42,7 +44,8 @@ func main() {
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/home", home)
-	http.HandleFunc("/photos", photos)
+	http.HandleFunc("/2019", twentyNineteen)
+	http.HandleFunc("/2021", twentyTwentyOne)
 	http.HandleFunc("/mood", mood)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/about", about)
@@ -88,11 +91,18 @@ func home(w http.ResponseWriter, r *http.Request) {
 	utils.RenderTemplate(w, "home.html", l)
 }
 
-func photos(w http.ResponseWriter, r *http.Request) {
+func twentyNineteen(w http.ResponseWriter, r *http.Request) {
 	detect := mobiledetect.NewMobileDetect(r, nil)
 	l := Layout{false, false, "", nil, detect.IsMobile()}
-	l.Photos = shufflePhotos(photosPagePhotos)
-	utils.RenderTemplate(w, "photos.html", l)
+	l.Photos = shufflePhotos(twentyNineteenPhotos)
+	utils.RenderTemplate(w, "2019.html", l)
+}
+
+func twentyTwentyOne(w http.ResponseWriter, r *http.Request) {
+	detect := mobiledetect.NewMobileDetect(r, nil)
+	l := Layout{false, false, "", nil, detect.IsMobile()}
+	l.Photos = shufflePhotos(twentyTwentyOnePhotos)
+	utils.RenderTemplate(w, "2021.html", l)
 }
 
 func shufflePhotos(photos []Photo) []Photo {
@@ -101,6 +111,7 @@ func shufflePhotos(photos []Photo) []Photo {
 }
 
 func refreshAboutGifs() {
+	
 	for {
 		log.Info("Refreshing About Gifs")
 		var s3Gifs = svc.RetrieveObjects("about/")
@@ -114,6 +125,7 @@ func refreshAboutGifs() {
 }
 
 func refreshBackgroundImages() {
+	
 	for {
 		log.Info("Refreshing Background Images")
 		var s3Gifs = svc.RetrieveObjects("background/")
@@ -127,6 +139,7 @@ func refreshBackgroundImages() {
 }
 
 func refreshMoodboardBackgroundGifs() {
+	
 	for {
 		log.Info("Refreshing background gifs for moodboard")
 		var s3Gifs = svc.RetrieveObjects("mood/gifs/")
@@ -139,9 +152,10 @@ func refreshMoodboardBackgroundGifs() {
 	}
 }
 
-func refreshPhotosPagePhotos() {
+func refreshFw19PagePhotos() {
+	
 	for {
-		log.Info("Refreshing photos for Photos")
+		log.Info("Refreshing photos for FW19")
 		s3Photos := svc.RetrieveObjects("website/")
 		var photos []Photo
 		for _, item := range s3Photos {
@@ -149,12 +163,29 @@ func refreshPhotosPagePhotos() {
 			p := Photo{cloudFrontBaseURL + *item.Key, "", id}
 			photos = append(photos, p)
 		}
-		photosPagePhotos = photos
+		twentyNineteenPhotos = photos
+		time.Sleep(5 * time.Minute)
+	}
+}
+
+func refreshSs19PagePhotos() {
+	
+	for {
+		log.Info("Refreshing photos for SS21")
+		s3Photos := svc.RetrieveObjects("summer21/")
+		var photos []Photo
+		for _, item := range s3Photos {
+			id := strings.Replace(strings.Replace(*item.Key, ".jpg", "", 1), "website/", "", 1)
+			p := Photo{cloudFrontBaseURL + *item.Key, "", id}
+			photos = append(photos, p)
+		}
+		twentyTwentyOnePhotos = photos
 		time.Sleep(5 * time.Minute)
 	}
 }
 
 func refreshMoodboardPagePhotos() {
+	
 	for {
 		log.Info("Refreshing photos for Moodboard")
 		s3Photos := svc.RetrieveObjects("mood/photos/")
